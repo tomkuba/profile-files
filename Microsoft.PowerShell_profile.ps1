@@ -1,3 +1,7 @@
+Import-Module posh-git
+Start-SshAgent
+
+# Linux like autocomplete on Tab
 if ($host.Name -eq 'ConsoleHost')
 {
     Import-Module PSReadline
@@ -10,8 +14,8 @@ Register-EngineEvent PowerShell.Exiting -Action { Get-History | Export-Clixml $H
 if (Test-path $HistoryFilePath) { Import-Clixml $HistoryFilePath | Add-History }
 Set-PSReadlineKeyHandler -Key UpArrow -Function HistorySearchBackward
 Set-PSReadlineKeyHandler -Key DownArrow -Function HistorySearchForward
-# Persistent History
 
+# Insert double quotes
 Set-PSReadlineKeyHandler -Chord 'Oem7','Shift+Oem7' `
                          -BriefDescription SmartInsertQuote `
                          -LongDescription "Insert paired quotes if not already on a quote" `
@@ -34,25 +38,16 @@ Set-PSReadlineKeyHandler -Chord 'Oem7','Shift+Oem7' `
     }
 }
 
-Start-SshAgent
-
-# shorcut to CopyLastCommandToClipboard
+# CopyLastCommandToClipboard + shortcut
 function CopyLastCommandToClipboard {(Get-History)[-1].CommandLine | clip}
 Set-Alias cc -value CopyLastCommandToClipboard
 
-# shortcut to parent folder
+# Shortcut to parent folder
 Set-Alias .. -value cd..
 
-# motd
+# Welcome message
 write-host ":: Hello tomio, your favourite commands are: cc, ..                           ::"
 write-host ":: feel free to add more commands anytime                                     ::"
 
-
-#function prompt
-#{
-#    "PS" + " [$(Get-Date -format T)] " + $(get-location)+">"
-#}
-
+# Prompt example: [14:38:41] C:\Users\tomkuba>
 $GitPromptSettings.DefaultPromptPrefix = '[$(Get-Date -format T)] '
-
-Import-Module posh-git
