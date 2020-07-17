@@ -23,3 +23,4 @@ __git_color_ps1 () {
 }
 
 export PS1="\t \[\e]0;\u@\h: \w\a\]${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;36m\]\w\[\033[00m\$(__git_color_ps1)\]\$(__git_ps1)\[\e[0m\] $ "
+export LS_COLORS='di=36:ln=01;36:ow=01;36'
